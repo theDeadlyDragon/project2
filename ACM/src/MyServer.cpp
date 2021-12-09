@@ -5,6 +5,7 @@ MyServer::MyServer() {
 }
 
 AsyncWebServer server(80);
+acmData motor = acmData();
 
 void MyServer::setupServer() {
 
@@ -42,19 +43,19 @@ void MyServer::setupServer() {
 
     // Send a POST request to <ESP_IP>/...
     server.on("/left", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        Serial.println("LEFT");
+        motor.updateMotorSpeed(-250, 250);
     });
     server.on("/right", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        Serial.println("RIGHT");
+        motor.updateMotorSpeed(250, -250);
     });
     server.on("/go", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        Serial.println("GO");
+        motor.updateMotorSpeed(250, 250);
     });
     server.on("/back", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        Serial.println("BACK");
+        motor.updateMotorSpeed(-250, -250);
     });
     server.on("/stop", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        Serial.println("STOP");
+        motor.updateMotorSpeed(0, 0);
     });
 
     // Start server
