@@ -10,6 +10,7 @@ class SensorController {
 
     int ultraSoonFrontTrig = 4;
     int ultraSoonFrontEcho = 15;
+    long duration = 0;
 
     int reed = 12;
 
@@ -23,7 +24,7 @@ class SensorController {
 
 
   SensorController();
-  void setupSensorController();
+  void setupSensor();
   void readSensor();
 };
 #endif
