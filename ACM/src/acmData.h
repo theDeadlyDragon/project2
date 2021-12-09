@@ -1,5 +1,6 @@
 #ifndef ACMDATA
 #define ACMDATA
+#include <Arduino.h>
 
 class acmData {
   public:
