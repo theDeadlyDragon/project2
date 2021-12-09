@@ -6,8 +6,8 @@
 //#include "webPage.h"
 
 // Setting network credentials
-const char* ssid = "Free Wifi 2.4GHz";
-const char* password = "0615100678";
+const char* ssid = "";
+const char* password = "";
 
 const int ledLeft = 17;
 const int ledRight = 16;

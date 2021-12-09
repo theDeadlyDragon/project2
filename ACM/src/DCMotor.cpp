@@ -1,11 +1,10 @@
-#include <Arduino.h>
-#include "acmData.h"
+#include "DCMotor.h"
 
-acmData::acmData() {
+DCMotor::DCMotor() {
 
 }
 
-void acmData::setupacmData(){
+void DCMotor::setupDCMotor(){
     pinMode(mLForwardPin,OUTPUT);
     pinMode(mRForwardPin,OUTPUT);
     pinMode(mLBackwardPin,OUTPUT);
@@ -20,7 +19,7 @@ void acmData::setupacmData(){
     ledcAttachPin(mRBackwardPin,3);
 }
 
-void acmData::updateMotorSpeed(int lPwm, int rPWM){
+void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
     Serial.printf("updated with %d and %d \n", lPwm,rPWM);
     motorLPWM = lPwm;
     motorRPWM = rPWM;

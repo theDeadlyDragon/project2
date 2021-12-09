@@ -1,8 +1,8 @@
-#ifndef ACMDATA
-#define ACMDATA
+#ifndef DCMOTOR
+#define DCMOTOR
 #include <Arduino.h>
 
-class acmData {
+class DCMotor {
   public:
     int mLForwardPin = 21;
     int mRForwardPin = 18;
@@ -16,8 +16,8 @@ class acmData {
     int motorLPWM;
     int motorRPWM;
 
-  acmData();
-  void setupacmData();
+  DCMotor();
+  void setupDCMotor();
   void updateMotorSpeed(int lPwm, int rPWM);
 };
 #endif

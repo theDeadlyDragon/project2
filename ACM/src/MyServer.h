@@ -4,15 +4,13 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
-#include "acmData.h"
+#include "DCMotor.h"
 
 class MyServer {
   public:
     // Setting network credentials
-    const char* ssid = "MiPhone";
-    const char* password = "2bde27176";
-
-    // AsyncWebServer server(80);
+    const char* ssid = "ACM_pro1_v29";
+    const char* password = "Welkom01";
 
   MyServer();
   void setupServer();

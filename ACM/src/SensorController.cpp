@@ -36,7 +36,6 @@ void SensorController::readSensor(){
     digitalWrite(ultraSoonFrontTrig, LOW);
 
     duration = pulseIn(ultraSoonFrontEcho, HIGH);
-
     ultraSoonDistance = duration * 0.0343 / 2; //0.0343 speed of sound 
 
     //reed

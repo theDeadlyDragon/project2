@@ -1,30 +1,33 @@
-// Importing necessary libraries
-#include "MyServer.h"
-#include "acmData.h"
-#include "SensorController.h"
+#include "main.h"
 
 MyServer myServer = MyServer();
-acmData myAcmData = acmData();
+DCMotor myDCMotor = DCMotor();
 SensorController sensorController = SensorController();
+
+int state;
 
 void setup(){
   Serial.begin(115200);
   //setup and starting of the server
   myServer.setupServer();
   //setup dc motor
-  myAcmData.setupacmData();
+  myDCMotor.setupDCMotor();
   //setup sensors
   sensorController.setupSensor();
+  //initial state
+  state = IDLE;
 }
 
 void loop(){
-  // sensorController.readSensor();
-  // Serial.println(sensorController.ultraSoonDistance);
-  // if(sensorController.ultraSoonDistance < 10){
-  //   myAcmData.updateMotorSpeed(255, 255);
-  // }
-  // else{
-  //   myAcmData.updateMotorSpeed(0, 0);
-  // }
-  
+  sensorController.readSensor();
+
+  if(state == AUTOPILOT){
+
+  }
+  else if(state == OBJAVOID){
+
+  }
+  else{
+
+  }  
 }
