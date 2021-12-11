@@ -1,5 +1,11 @@
 #include "SensorController.h"
 
+//initial values
+bool irStateLeft = false;
+bool irStateRight = false; 
+int ultraSoonDistance = 0;
+bool reedState = false;
+
 SensorController::SensorController() {
 
 }

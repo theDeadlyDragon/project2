@@ -16,6 +16,7 @@ void setup(){
   sensorController.setupSensor();
   //initial state
   state = IDLE;
+  Serial.println("setup complete");
 }
 
 void loop(){

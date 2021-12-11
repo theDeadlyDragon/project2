@@ -1,0 +1,49 @@
+.btn-primary {
+    color: #000000;
+    background-color: #e0e0e0;
+    border-color: #b90202; /*set the color you want here*/
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #b90202;
+    border-color: #e0e0e0; /*set the color you want here*/
+}
+
+.btn-lg {
+    width:200px;
+}
+
+.btn-md {
+    width: 100px;
+    height: 100px;
+}
+
+.btn-md {
+    color: #000000;
+    background-color: #e0e0e0;
+    border-color: #9841ca; /*set the color you want here*/
+}
+.btn-md:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #9841ca;
+    border-color: #e0e0e0; /*set the color you want here*/
+}
+
+  body {
+      background-color: #000000;
+  }
+
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+.box {
+    background-color: white;
+    text-align: left;
+}

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "SensorController.h"
 #include "MyServer.h"
 
 MyServer::MyServer() {
@@ -44,6 +45,10 @@ void MyServer::setupServer() {
         request->send(SPIFFS, "/scripts.js", "text/javascript");
     });
 
+    server.on("/monitor.js", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/monitor.js", "text/javascript");
+    });
+
     server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request){
         request->send(SPIFFS, "/bootstrap.js", "text/javascript");
     });
@@ -61,6 +66,10 @@ void MyServer::setupServer() {
         request->send(SPIFFS, "/control.html", "text/html");
     });
 
+    server.on("/monitor.html", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/monitor.html", "text/html");
+    });
+
     // Send a POST request to <ESP_IP>/... for motor control
     server.on("/left", HTTP_POST, [] (AsyncWebServerRequest *request) {
         myDCMotor.updateMotorSpeed(-250, 250);
@@ -74,21 +83,34 @@ void MyServer::setupServer() {
     server.on("/back", HTTP_POST, [] (AsyncWebServerRequest *request) {
         myDCMotor.updateMotorSpeed(-250, -250);
     });
-    server.on("/stopM", HTTP_POST, [] (AsyncWebServerRequest *request) {
+    server.on("/stop", HTTP_POST, [] (AsyncWebServerRequest *request) {
         myDCMotor.updateMotorSpeed(0, 0);
     });
 
-    //GET request for monitor and state
+    //GET request for monitor
     server.on("/state", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send_P(200, "text/plain", state.c_str());
+        request->send_P(200, "text/plain", String(state).c_str());
     });
 
-    server.on("/start", HTTP_GET, [](AsyncWebServerRequest *request){
-        state = AUTOPILOT;
+    server.on("/startStop", HTTP_GET, [](AsyncWebServerRequest *request){
+        if(state == IDLE){
+            state = AUTOPILOT;
+            Serial.println("changed state to AUTOPILOT");
+        }
+        else{
+            state = IDLE;
+            Serial.println("changed state to IDLE");
+        }
     });
 
-    server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request){
-        state = IDLE;
+    server.on("/sensor", HTTP_GET, [](AsyncWebServerRequest *request){
+    AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Ok");
+    response->addHeader("state", String(state).c_str());
+    response->addHeader("irLeft", String(irStateLeft).c_str());
+    response->addHeader("irRight", String(irStateRight).c_str());
+    response->addHeader("ultrasoon", String(ultraSoonDistance).c_str());
+    response->addHeader("reed", String(reedState).c_str());
+    request->send(response);
     });
 
     // Start server
