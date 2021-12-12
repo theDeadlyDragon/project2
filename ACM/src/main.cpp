@@ -23,12 +23,9 @@ void loop(){
   sensorController.readSensor();
 
   if(state == AUTOPILOT){
-
+    myDCMotor.autoPilot();
   }
   else if(state == OBJAVOID){
-
+    myDCMotor.objAvoid();
   }
-  else{
-
-  }  
 }

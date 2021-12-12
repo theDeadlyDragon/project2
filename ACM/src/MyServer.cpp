@@ -1,5 +1,3 @@
-#include "main.h"
-#include "SensorController.h"
 #include "MyServer.h"
 
 MyServer::MyServer() {

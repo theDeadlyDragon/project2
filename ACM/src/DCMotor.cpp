@@ -49,4 +49,12 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
       ledcWrite(1,0);
       ledcWrite(3,0);
     }
-  }
+}
+
+void DCMotor::autoPilot(){
+
+}
+
+void DCMotor::objAvoid(){
+
+}

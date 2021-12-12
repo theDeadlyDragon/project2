@@ -5,6 +5,8 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include "DCMotor.h"
+#include "main.h"
+#include "SensorController.h"
 
 class MyServer {
   public:
