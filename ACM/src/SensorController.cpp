@@ -2,7 +2,8 @@
 
 //initial values
 bool irStateLeft = false;
-bool irStateRight = false; 
+bool irStateRight = false;
+int irLastSeen = 0;
 int ultraSoonDistance = 0;
 bool reedState = false;
 
@@ -22,19 +23,8 @@ void SensorController::setupSensor(){
 
 void SensorController::readSensor(){
     //read ir sensor
-    if(!digitalRead(irLeft)){
-        irStateLeft = true;
-    }
-    else{
-        irStateLeft = false;
-    }
-
-    if(!digitalRead(irRight)){
-        irStateRight = true;
-    }
-    else{
-        irStateRight = false;
-    }
+    irStateLeft = digitalRead(irLeft);
+    irStateRight = digitalRead(irRight);
 
     //ultrasoon
     digitalWrite(ultraSoonFrontTrig, HIGH);

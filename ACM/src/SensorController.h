@@ -5,6 +5,7 @@
     //state variables 
     extern bool irStateLeft;
     extern bool irStateRight; 
+    extern int irLastSeen;
 
     extern int ultraSoonDistance;
 

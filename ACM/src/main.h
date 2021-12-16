@@ -1,5 +1,5 @@
 // Importing necessary libraries
-#include "MyServer.h"
+//#include "MyServer.h"
 #include "DCMotor.h"
 #include "SensorController.h"
 
@@ -9,7 +9,7 @@
 #define AUTOPILOT 2
 #define OBJAVOID 3
 
-extern MyServer myServer;
+//extern MyServer myServer;
 extern DCMotor myDCMotor;
 extern SensorController sensorController;
 
