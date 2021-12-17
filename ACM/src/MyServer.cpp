@@ -4,113 +4,98 @@ MyServer::MyServer() {
 
 }
 
-AsyncWebServer server(80);
+// AsyncWebServer server(80);
+WiFiClient espClient;
+PubSubClient client(espClient);
 
-IPAddress local_IP(192,168,0,1);
-IPAddress gateway(192,168,0,1);
-IPAddress subnet(255,255,255,0);
+char msg[50];
+int value = 0;
 
-void MyServer::setupServer() {
+// IPAddress local_IP(192,168,0,1);
+// IPAddress gateway(192,168,0,1);
+// IPAddress subnet(255,255,255,0);
 
-    if(!SPIFFS.begin()){
-        Serial.println("An Error has occurred while mounting SPIFFS");
-        return;
+void callback(char* topic, byte* message, unsigned int length) {
+    Serial.print("Message arrived on topic: ");
+    Serial.print(topic);
+    Serial.print(". Message: ");
+    String messageTemp;
+  
+    if((char)message[0] == 's'){
+        if((char)message[1] == '0'){
+            state = IDLE;
+            Serial.println("state changed to IDLE");            
+        }
+        else if((char)message[1] == '1'){
+            state = AUTOPILOT;
+            Serial.println("state changed to AUTOPILOT");
+        }
+    }
+    else if((char)message[0] == 'm'){
+        switch ((char)message[1]){
+            case 'g':
+                Serial.println("GO");
+                break;
+            case 'b':
+                Serial.println("BACK");
+                break;
+            case 'l':
+                Serial.println("LEFT");
+                break;
+            case 'r':
+                Serial.println("RIGHT");
+                break;
+            case 's':
+                Serial.println("STOP");
+                break;
+        }
     }
 
-    WiFi.softAPConfig(local_IP, gateway, subnet);
-    WiFi.softAP(ssid, password);
+//   for (int i = 0; i < length; i++) {
+//     Serial.print((char)message[i]);
+//     messageTemp += (char)message[i];
+//   }
+//     Serial.println();
 
-    // Print ESP Local IP Address
+}
+
+void MyServer::setupServer() {
+    // connecting to a WiFi network
+    Serial.println();
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+
+    Serial.println("");
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
 
-    // Route for root / web page files: html, css, js
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-        if(state == MANUAL){
-            state = IDLE;
-        }
-        request->send(SPIFFS, "/index.html", "text/html");
-    });
+    client.setServer(mqtt_server, 1883);
+    client.setCallback(callback);
+}
 
-    server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/style.css", "text/css");
-    });
-
-    server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/bootstrap.css", "text/css");
-    });
-
-    server.on("/scripts.js", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/scripts.js", "text/javascript");
-    });
-
-    server.on("/monitor.js", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/monitor.js", "text/javascript");
-    });
-
-    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/bootstrap.js", "text/javascript");
-    });
-
-    server.on("/popper.js", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/popper.js", "text/javascript");
-    });
-
-    server.on("/jquery.js", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/jquery.js", "text/javascript");
-    });
-
-    server.on("/control.html", HTTP_GET, [](AsyncWebServerRequest *request){
-        state = MANUAL;
-        request->send(SPIFFS, "/control.html", "text/html");
-    });
-
-    server.on("/monitor.html", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/monitor.html", "text/html");
-    });
-
-    // Send a POST request to <ESP_IP>/... for motor control
-    server.on("/left", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        myDCMotor.updateMotorSpeed(-250, 250);
-    });
-    server.on("/right", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        myDCMotor.updateMotorSpeed(250, -250);
-    });
-    server.on("/go", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        myDCMotor.updateMotorSpeed(250, 250);
-    });
-    server.on("/back", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        myDCMotor.updateMotorSpeed(-250, -250);
-    });
-    server.on("/stop", HTTP_POST, [] (AsyncWebServerRequest *request) {
-        myDCMotor.updateMotorSpeed(0, 0);
-    });
-
-    //GET request for monitor
-    server.on("/state", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send_P(200, "text/plain", String(state).c_str());
-    });
-
-    server.on("/startStop", HTTP_GET, [](AsyncWebServerRequest *request){
-        if(state == IDLE){
-            state = AUTOPILOT;
-            Serial.println("changed state to AUTOPILOT");
-        }
-        else{
-            state = IDLE;
-            Serial.println("changed state to IDLE");
-        }
-    });
-
-    server.on("/sensor", HTTP_GET, [](AsyncWebServerRequest *request){
-    AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Ok");
-    response->addHeader("state", String(state).c_str());
-    response->addHeader("irLeft", String(irStateLeft).c_str());
-    response->addHeader("irRight", String(irStateRight).c_str());
-    response->addHeader("ultrasoon", String(ultraSoonDistance).c_str());
-    response->addHeader("reed", String(reedState).c_str());
-    request->send(response);
-    });
-
-    // Start server
-    server.begin();
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("ESP32Client")) {
+      Serial.println("connected");
+      // Subscribe
+      client.subscribe("ACM/29/esp");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 3 seconds");
+      // Wait 3 seconds before retrying
+      delay(3000);
+    }
+  }
 }

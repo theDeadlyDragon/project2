@@ -1,16 +1,12 @@
 // Importing necessary libraries
-//#include "MyServer.h"
+#include "MyServer.h"
 #include "DCMotor.h"
 #include "SensorController.h"
 
 //define states
 #define IDLE 0
-#define MANUAL 1
-#define AUTOPILOT 2
-#define OBJAVOID 3
-
-//extern MyServer myServer;
-extern DCMotor myDCMotor;
-extern SensorController sensorController;
+#define AUTOPILOT 1
+#define OBJAVOID 2
+#define TUNNEL 3
 
 extern int state;

@@ -1,6 +1,6 @@
 #ifndef SENSORCONTROLLER
 #define SENSORCONTROLLER
-#include "Arduino.h"
+#include <Arduino.h>
 
     //state variables 
     extern bool irStateLeft;
@@ -27,4 +27,6 @@ class SensorController {
   void setupSensor();
   void readSensor();
 };
+
+extern SensorController sensorController;
 #endif

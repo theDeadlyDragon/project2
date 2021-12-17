@@ -1,15 +1,16 @@
 #include "main.h"
 
-//MyServer myServer = MyServer();
+MyServer myServer = MyServer();
 DCMotor myDCMotor = DCMotor();
 SensorController sensorController = SensorController();
 
 int state;
+long lastMsg = 0;
 
 void setup(){
   Serial.begin(115200);
   //setup and starting of the server
-  //myServer.setupServer();
+  myServer.setupServer();
   //setup dc motor
   myDCMotor.setupDCMotor();
   //setup sensors
@@ -20,36 +21,28 @@ void setup(){
 }
 
 void loop(){
+  if (!client.connected()) {
+    reconnect();
+  }
+
+  client.loop();
+
   sensorController.readSensor();
   if(state == AUTOPILOT){
-    Serial.println("loop");
-    Serial.println(ultraSoonDistance);
-    if(ultraSoonDistance < 15){
-        myDCMotor.updateMotorSpeed(0, 0);
-    }
-    else if(!(irStateLeft || irStateRight)){
-      myDCMotor.updateMotorSpeed(250, 180);
-    }
-    else if(irStateLeft && irStateRight){
-      if(irLastSeen == 1){
-        myDCMotor.updateMotorSpeed(200, -200);
-        vTaskDelay(1500 / portTICK_RATE_MS);
-      }
-    else if(irLastSeen == 2){    
-        myDCMotor.updateMotorSpeed(-200, 200);
-        vTaskDelay(1500 / portTICK_RATE_MS);
-      }
-    }
-    else if(irStateLeft && !irStateRight){
-      irLastSeen = 1;
-      myDCMotor.updateMotorSpeed(230, -150);
-    }
-    else if(irStateRight && !irStateLeft){
-      irLastSeen = 2;
-      myDCMotor.updateMotorSpeed(-150, 230);
-    }
+    myDCMotor.autoPilot();
   }
   else if(state == OBJAVOID){
     myDCMotor.objAvoid();
+  }
+
+  long now = millis();
+  if (now - lastMsg > 1000) {
+    lastMsg = now;
+    
+    client.publish("ACM/29/client/irLeft", String(irStateLeft).c_str());
+    client.publish("ACM/29/client/irRight", String(irStateRight).c_str());
+    client.publish("ACM/29/client/ultrasoon", String(ultraSoonDistance).c_str());
+    client.publish("ACM/29/client/reed", String(reedState).c_str());
+    client.publish("ACM/29/client/state", String(state).c_str());
   }
 }

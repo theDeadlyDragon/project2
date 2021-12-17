@@ -1,7 +1,7 @@
 #ifndef DCMOTOR
 #define DCMOTOR
 #include <Arduino.h>
-#include "sensorController.h"
+#include "main.h"
 
 class DCMotor {
   public:
@@ -23,4 +23,6 @@ class DCMotor {
   void autoPilot();
   void objAvoid();
 };
+
+extern DCMotor myDCMotor;
 #endif
