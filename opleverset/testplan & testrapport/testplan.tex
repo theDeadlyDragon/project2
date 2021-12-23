@@ -1,0 +1,353 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx} 
+\usepackage[dutch]{babel}
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault} 
+\usepackage[T1]{fontenc}
+\usepackage{datetime}
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
+
+\begin{document}
+\sffamily
+\begin{titlepage}
+  \centering
+    \vfill
+    \vfill
+    \includegraphics[width=4cm]{logohr} % also works with logo.pdf
+    \vfill
+    \vfill
+    {\bfseries\Huge
+      Testplan\\
+      Project 2 ACM - TINPRJ04-2
+      \vskip6cm
+    }
+      {
+        \bfseries\normalsize
+        \textbf{\underline{Student:}}
+        \hfill
+        \textbf{\underline{Vakdocent:}} \\
+        Maurice Bal - 1032062
+        \hfill
+        Daisy Hofman\\
+        Prashant Chotkan - 1042569
+        \hfill
+        Thijs de Ruiter\\
+        \vskip6cm       
+      }
+      {\bfseries\Large
+        \textit{Rotterdam University of Applied Sciences}\\
+        \monthyeardate\today\\
+      }
+    \vfill
+    
+    \vfill
+    \vfill
+\end{titlepage}
+\newpage
+\tableofcontents
+\newpage
+
+\section{Sensor: InfraRood}
+\subsection{Test 1.1: Laat de ACM op de lijn afrijden zodat de ACM, de lijn in de lengte zal tegenkomen.}
+\subsubsection{Testopstelling}
+Een zwarte lijn met een breedte van ong. 3cm en een lengte van ong. 15cm geplaatst in een open ruimte.\\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: } De IR sensor zal de lijn detecteren en de ACM zal tot stilstand komen.
+\newline
+\textit{Acceptance Criteria: }De ACM moet tot stilstand komen. De ACM mag op de lijn staan, maar mag met geen enkel onderdeel aan de andere kant buiten de lijn uitsteken.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Sensor: Ultrasoon}
+\subsection{Test 2.1: Laat de ACM recht op de muur afrijden.}
+\subsubsection{Testopstelling}
+Een muur met een lengte en hoogte van minimaal 20cm.\\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De Ultrasson sensor zal de muur detecteren en de ACM zal tot stilstand komen.
+\newline
+\textit{Acceptance Criteria: }De ACM moet tot stilstand komen en de ACM moet op een afstand van minimaal 3cm van de muur staan.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Sensor: LDR}
+\subsection{Test 3.1: Laat de ACM door de opening van de tunnel rijden}
+\subsubsection{Testopstelling} 
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De LDR zal de verandering in licht door de tunnel detecteren en de ACM zal tot stilstand komen.
+\newline
+\textit{Acceptance Criteria: }De ACM moet tot stilstand komen en de ACM mag tot maximaal 50\% met zijn frame in de lengte in de tunnel terecht komen.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Sensor: Reed}
+\subsection{Test 4.1: Laat de ACM op de magneetstrip afrijden zodat hij deze in de lengte tegen zal komen}
+\subsubsection{Testopstelling}
+Een magneetstrip met een breedte van ong. 2cm en een lengte van ong. 10cm geplaatst in een open ruimte.\\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De reed sensor zal de magneetstrip detecteren en ACM zal tot stilstand komen.
+\newline
+\textit{Acceptance Criteria: }De ACM moet tot stilstand komen.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\newpage
+
+
+
+
+\section{Feature 1: De ACM kan door een tunnel rijden}
+
+\subsection{Test 5.1: Laat de ACM recht op de muur afrijden}
+\subsubsection{Testopstelling}
+Een muur met een hoogte van minimaal 20cm en een lengte van minimaal 40cm\\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal de muur detecteren en langs de muur door blijven rijden
+\newline
+\textit{Acceptance Criteria: }De ACM kan langs de muur rijden zonder deze te raken op een afstand van minimaal 1cm. 
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\subsection{Test 5.2: Laat de ACM door de opstelling rijden}
+\subsubsection{Testopstelling}
+Een tunnel met een opening van 30cm bij 30cm en een lengte van ong. 40cm\\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal de tunnel detecteren en door de tunnel rijden
+\newline
+\textit{Acceptance Criteria: }De ACM kan door de tunnel rijden zonder de muren van de tunnel te raken op een afstand van minimaal 1cm tussen de ACM en de muur. 
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+
+\section{Feature 2: De ACM moet op een accu rijden}
+\subsection{test 6.1: Laat de ACM rijden autonoom op enkel de stroom van een accu rijden}
+\subsubsection{Testopstelling}
+Een baan zoals op de foto te zien is. De zwarte lijnen liggen 40cm uit elkaar en de lijnen zelf zijn 3cm breed\\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: } De ACM zal de baan volgen en blijven rijden
+\newline
+\textit{Acceptance Criteria: }De ACM kan minimaal 5 minuten de baan blijven volgen   
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 3: De ACM kan in een parkeervak op het haventerrein parkeren}
+\subsection{Test 7.1: Parkeer de ACM m.b.v. de remote controller in het parkeervak}
+\subsubsection{Testopstelling}
+Een parkeervak van 40cm bij 30cm\\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal reageren op de controller en in het parkeervak geplaats worden
+\newline
+\textit{Acceptance Criteria: }De ACM moet zodanig in het parkeervak geplaatst kunnen worden zodat de lijnen van het parkeervak niet geraakt worden.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 4: De ACM kan over heuvels rijden}
+
+\subsection{Test 8.1: Laat de ACM over een helling rijden}
+\subsubsection{Testopstelling}
+
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM kan zonder te stoppen over de heuvel rijden.
+\newline
+\textit{Acceptance Criteria: }De ACM moet over de heuvel kunnen rijden en mag op maximaal de binnenste 15mm van de zwarte lijnen van het rijvlak komen.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 5: De ACM kan binnen vijf minuten de containers naar de bestemming op het haventerrein brengen}
+\subsection{Test 9.1 Laat de ACM de testopstelling volgen}
+\subsubsection{Testopstelling}
+Er wordt een baan afgelegd zoals weergegeven in de foto. Het vak is in totaal 3 bij 3 meter en de zwarte lijnen zijn 3cm breed. 
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal de opgegeven baan volgen
+\newline
+\textit{Acceptance Criteria: }De ACM moet de volledige baan binnen 5 minuten kunnen afleggen
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 6: De ACM kan na een val van maximaal 50 mm verder rijden}
+\subsection{Test 10.1 Laat de ACM van een hoogte van 5cm vallen}
+\subsubsection{Testopstelling}
+
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal door blijven rijden 
+\newline
+\textit{Acceptance Criteria: }De ACM moet na de val zonder externe hulp verder kunnen rijden
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 7: De ACM kan binnen de lijnen van het rijvlak rijden}
+\subsection{Test 11.1 Laat de ACM op een lijn af rijden}
+\subsubsection{Testopstelling}
+Een zwarte lijn van 3cm breed met een lengte van ong. 30cm
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal de lijn detecteren en langs de lijn rijden
+\newline
+\textit{Acceptance Criteria: }De ACM kan langs de lijn rijden en mag op de lijn komen, maar mag daar met geen enkel onderdeel aan de andere kant uitsteken.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\subsection{Test 11.2 Laat de ACM de testopstelling volgen}
+\subsubsection{Testopstelling}
+een baan met twee bochten, de lijnen liggen 40cm uitelkaar en de lijnen zijn 3cm breed.
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal de baan volgen zonder de lijnen van het rijvlak te overschrijden
+\newline
+\textit{Acceptance Criteria: }De ACM kan de baan volledig volgen en mag op de lijn komen, maar mag daar met geen enkel onderdeel aan de andere kant uitsteken.
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 8: De ACM kan obstakels ontwijken}
+\subsection{Test 12.1 ....}
+\subsubsection{Testopstelling}
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: } ........
+\newline
+\textit{Acceptance Criteria: }
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 9: De ACM kan bij de kade(afgrond) keren}
+\subsection{Test 13.1 Laat de ACM op een afgrond afrijden}
+\subsubsection{Testopstelling}
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM zal de afgrond detecteren, 180 graden draaien en weer terug rijden.
+\newline
+\textit{Acceptance Criteria: }De ACM mag niet van de afgrond vallen, en moet 180 graden gedraaid zijn, voordat deze weer verder rijdt
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 10: De ACM kan 2 containers van 60 bij 30 bij 30 mm vervoeren}
+
+\subsection{Test 14.1 Laat de ACM met twee containers van 60 bij 30 bij 30 mm over een baan rijden}
+\subsubsection{Testopstelling}
+baan met helling ... \\
+INSERT FOTO
+\subsubsection{resultaten}
+\textit{Verwacht resultaat: }De ACM kan met de containers over de baan rijden zonder dat deze eraf vallen.
+\newline
+\textit{Acceptance Criteria: }De ACM kan de volledige baan afleggen, zonder de containers te laten vallen
+\newline
+\textit{Waarnemingen: }
+\newline
+\textit{Conclusie: }
+
+\section{Feature 11: De ACM kan magnetische punten op het terrein detecteren als herkeningspunten}
+\subsection{Zie test 4.1}
+
+
+
+\newpage
+\section{Deel 1}
+Een stukje tekst\ldots 
+\section{Sectie 2}
+\subsection{Opgave 1}
+\subsection{Opgave 2}
+\subsubsection{nog dieper}
+\subsubsection{nog dieper}
+\subsubsection{nog dieper}
+\subsubsection{nog dieper}
+\subsection{Opgave 3}
+\section{Deel 2}
+\section{Deel 3}
+Een stukje tekst\ldots \\
+op een nieuwe regel\ldots 
+\section{Enkele voorbeelden}
+Een formule in $f(x)=3x^2+7$ een zin, zoals $\frac{1}{\pi}$ of $\sqrt{e^{2}}$ is mogelijk\\
+Een formule in een aparte environment:
+ \begin{eqnarray}
+   \sum_{1}^{n}n=\frac{1}{2}n\cdot(n+1)\\
+   \prod_{1}^{n}n=n!\\
+   f(x)=5x^3+\sqrt{2x}
+ \end{eqnarray}
+ 
+Een plaatje in jpg, png of pdf werkt als volgt:
+ \begin{center}
+\includegraphics[width=2cm]{logohr}
+\end{center}
+\section{Opsommingen}
+\begin{itemize}
+\item kaas
+\item melk
+  \begin{enumerate}
+\item rood
+\item geel
+  \begin{itemize}
+  \item groen
+  \item paars
+  \item oranje
+  \item $e^x+6$
+  \end{itemize}
+\item blauw
+\end{enumerate}
+\item eieren
+\end{itemize}
+Ten slotte een tabel met de tabular environment:\\
+\vspace{5mm}
+
+\begin{tabular}{|l|r||c|}
+  \hline
+  links &rechts &midden\\
+  \hline\hline
+  blabla&bleble&5345\\
+  \hline
+  blabla&\ldots bleble\ldots &5345\\
+  \hline
+  \ldots blabla\ldots &bleble&24245345\\
+  \hline
+  blabla&bleble&534222342345\\
+  \hline
+\end{tabular}
+\end{document}
+
+
+
+
+
+
+
+
+
