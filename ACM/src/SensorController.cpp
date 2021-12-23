@@ -8,6 +8,7 @@ int ultraSoonDistance = 20;
 bool reedState = false;
 int arraySize = 20;
 int irIndex = 20;
+int lastIrSeen[20];
 
 SensorController::SensorController() {
 
