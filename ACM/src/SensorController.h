@@ -11,6 +11,10 @@
 
     extern bool reedState;
 
+    extern int arraySize;
+    extern int lastIrSeen[20];
+    extern int irIndex;
+
 class SensorController {
   public:
     //initialise pins

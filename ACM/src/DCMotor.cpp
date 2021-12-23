@@ -1,5 +1,7 @@
 #include "DCMotor.h"
 
+long lastRecord = 0;
+
 DCMotor::DCMotor() {
 
 }
@@ -57,25 +59,36 @@ void DCMotor::autoPilot(){
         myDCMotor.updateMotorSpeed(0, 0);
     }
     else if(!(irStateLeft || irStateRight)){
-      myDCMotor.updateMotorSpeed(250, 180);
+      myDCMotor.updateMotorSpeed(250, 250);
     }
     else if(irStateLeft && irStateRight){
-      if(irLastSeen == 1){
-        myDCMotor.updateMotorSpeed(200, -200);
-        vTaskDelay(1500 / portTICK_RATE_MS);
+      if(lastIrSeen[(irIndex - 5) % 20] == 1){
+        myDCMotor.updateMotorSpeed(-250,250);
       }
-    else if(irLastSeen == 2){    
-        myDCMotor.updateMotorSpeed(-200, 200);
-        vTaskDelay(1500 / portTICK_RATE_MS);
+      else{
+        myDCMotor.updateMotorSpeed(250,-250);
       }
+      vTaskDelay(1500 / portTICK_RATE_MS);
     }
     else if(irStateLeft && !irStateRight){
-      irLastSeen = 1;
-      myDCMotor.updateMotorSpeed(230, -150);
+      long now = millis();
+      if(now - lastRecord > 800){
+        lastRecord = now;
+        lastIrSeen[irIndex % arraySize] = 1;
+        irIndex++;
+        client.publish("ACM/29/client/array", String(1).c_str());
+      }
+      myDCMotor.updateMotorSpeed(230, -200);
     }
     else if(irStateRight && !irStateLeft){
-      irLastSeen = 2;
-      myDCMotor.updateMotorSpeed(-150, 230);
+      long now = millis();
+      if(now - lastRecord > 800){
+        lastRecord = now;
+        lastIrSeen[irIndex % arraySize] = 2;
+        irIndex++;
+        client.publish("ACM/29/client/array", String(2).c_str());
+      }
+      myDCMotor.updateMotorSpeed(-200, 230);
     }
 }
 

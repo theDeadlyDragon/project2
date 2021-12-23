@@ -4,8 +4,10 @@
 bool irStateLeft = false;
 bool irStateRight = false;
 int irLastSeen = 0;
-int ultraSoonDistance = 0;
+int ultraSoonDistance = 20;
 bool reedState = false;
+int arraySize = 20;
+int irIndex = 20;
 
 SensorController::SensorController() {
 
@@ -26,13 +28,13 @@ void SensorController::readSensor(){
     irStateLeft = digitalRead(irLeft);
     irStateRight = digitalRead(irRight);
 
-    //ultrasoon
-    digitalWrite(ultraSoonFrontTrig, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(ultraSoonFrontTrig, LOW);
+    // //ultrasoon
+    // digitalWrite(ultraSoonFrontTrig, HIGH);
+    // delayMicroseconds(10);
+    // digitalWrite(ultraSoonFrontTrig, LOW);
 
-    duration = pulseIn(ultraSoonFrontEcho, HIGH);
-    ultraSoonDistance = duration * 0.0343 / 2; //0.0343 speed of sound 
+    // duration = pulseIn(ultraSoonFrontEcho, HIGH);
+    // ultraSoonDistance = duration * 0.0343 / 2; //0.0343 speed of sound 
 
     //reed
     reedState = digitalRead(reed);

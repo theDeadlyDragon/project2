@@ -24,6 +24,7 @@ void callback(char* topic, byte* message, unsigned int length) {
     if((char)message[0] == 's'){
         if((char)message[1] == '0'){
             state = IDLE;
+            myDCMotor.updateMotorSpeed(0,0);
             Serial.println("state changed to IDLE");            
         }
         else if((char)message[1] == '1'){
@@ -34,18 +35,23 @@ void callback(char* topic, byte* message, unsigned int length) {
     else if((char)message[0] == 'm'){
         switch ((char)message[1]){
             case 'g':
+                myDCMotor.updateMotorSpeed(250,250);
                 Serial.println("GO");
                 break;
             case 'b':
+                myDCMotor.updateMotorSpeed(-250,-250);
                 Serial.println("BACK");
                 break;
             case 'l':
+                myDCMotor.updateMotorSpeed(-250,250);
                 Serial.println("LEFT");
                 break;
             case 'r':
+                myDCMotor.updateMotorSpeed(250,-250);
                 Serial.println("RIGHT");
                 break;
             case 's':
+                myDCMotor.updateMotorSpeed(0,0);
                 Serial.println("STOP");
                 break;
         }
