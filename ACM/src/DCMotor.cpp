@@ -58,37 +58,30 @@ void DCMotor::autoPilot(){
     if(ultraSoonDistance < 15){
         myDCMotor.updateMotorSpeed(0, 0);
     }
-    else if(!(irStateLeft || irStateRight)){
+    else if(!(irStateLeft || irStateRight || irStateFront)){
       myDCMotor.updateMotorSpeed(250, 250);
     }
+    else if(irStateFront){
+      if(irLastSeen == 0){
+        
+      }
+    }
+    else if(irStateLeft && irStateFront){
+      irLastSeen = 0;
+    }
+    else if(irStateRight && irStateFront){
+      irLastSeen = 1;
+    }
     else if(irStateLeft && irStateRight){
-      if(lastIrSeen[(irIndex - 5) % 20] == 1){
-        myDCMotor.updateMotorSpeed(-250,250);
-      }
-      else{
-        myDCMotor.updateMotorSpeed(250,-250);
-      }
-      vTaskDelay(1500 / portTICK_RATE_MS);
+
     }
-    else if(irStateLeft && !irStateRight){
-      long now = millis();
-      if(now - lastRecord > 800){
-        lastRecord = now;
-        lastIrSeen[irIndex % arraySize] = 1;
-        irIndex++;
-        client.publish("ACM/29/client/array", String(1).c_str());
-      }
-      myDCMotor.updateMotorSpeed(230, -200);
+    else if(irStateLeft){
+      irLastSeen = 0;
+
     }
-    else if(irStateRight && !irStateLeft){
-      long now = millis();
-      if(now - lastRecord > 800){
-        lastRecord = now;
-        lastIrSeen[irIndex % arraySize] = 2;
-        irIndex++;
-        client.publish("ACM/29/client/array", String(2).c_str());
-      }
-      myDCMotor.updateMotorSpeed(-200, 230);
+    else if(irStateRight){
+      irLastSeen = 1;
+
     }
 }
 
