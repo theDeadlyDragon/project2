@@ -9,6 +9,10 @@
     extern int irLastSeen;
 
     extern int ultraSoonDistance;
+    extern int ultraSoonDistanceLeft;
+    extern int ultraSoonDistanceRight;
+
+    extern bool ldrState;
 
     extern bool reedState;
 
@@ -25,9 +29,18 @@ class SensorController {
 
     const int ultraSoonFrontTrig = 2;
     const int ultraSoonFrontEcho = 15;
+
+    const int ultraSoonLeftTrig = 26;
+    const int ultraSoonLeftEcho = 27;
+
+    const int ultraSoonRightTrig = 12;
+    const int ultraSoonRightEcho = 14;
+
+    const int ldr = 13;
+
     long duration = 0;
 
-    const int reed = 12;
+    const int reed = 25;
 
   SensorController();
   void setupSensor();

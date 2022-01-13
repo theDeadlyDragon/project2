@@ -17,7 +17,6 @@ void setup(){
   sensorController.setupSensor();
   //initial state
   state = IDLE;
-  memset(lastIrSeen, 0, 20);
   Serial.println("setup complete");
 }
 
@@ -44,7 +43,10 @@ void loop(){
     client.publish("ACM/29/client/irRight", String(irStateRight).c_str());
     client.publish("ACM/29/client/irFront", String(irStateFront).c_str());
     client.publish("ACM/29/client/ultrasoon", String(ultraSoonDistance).c_str());
+    client.publish("ACM/29/client/ultrasoonLeft", String(ultraSoonDistanceLeft).c_str());
+    client.publish("ACM/29/client/ultrasoonRight", String(ultraSoonDistanceRight).c_str());
     client.publish("ACM/29/client/reed", String(reedState).c_str());
+    client.publish("ACM/29/client/ldr", String(ldrState).c_str());
     client.publish("ACM/29/client/state", String(state).c_str());
     client.publish("ACM/29/client/buffer", String(state).c_str());
   }

@@ -56,32 +56,42 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
 void DCMotor::autoPilot(){
   Serial.println(ultraSoonDistance);
     if(ultraSoonDistance < 15){
-        myDCMotor.updateMotorSpeed(0, 0);
+      myDCMotor.updateMotorSpeed(250, -250);
+      vTaskDelay(900);
     }
     else if(!(irStateLeft || irStateRight || irStateFront)){
       myDCMotor.updateMotorSpeed(250, 250);
     }
-    else if(irStateFront){
-      if(irLastSeen == 0){
-        
-      }
+    else if(irStateLeft && irStateRight && !irStateFront){
+      myDCMotor.updateMotorSpeed(-250,-250);
+      vTaskDelay(280);
     }
-    else if(irStateLeft && irStateFront){
+    else if(irStateLeft && irStateFront && !irStateRight){
       irLastSeen = 0;
+      myDCMotor.updateMotorSpeed(-250,250);
     }
-    else if(irStateRight && irStateFront){
+    else if(irStateRight && irStateFront && !irStateLeft){
       irLastSeen = 1;
+      myDCMotor.updateMotorSpeed(250,-250);
     }
-    else if(irStateLeft && irStateRight){
-
+    else if(irStateFront){
+      // myDCMotor.updateMotorSpeed(-250,-250);
+      // vTaskDelay(200);
+      if(irLastSeen == 0){
+        myDCMotor.updateMotorSpeed(-250,250);
+      }
+      else{
+        myDCMotor.updateMotorSpeed(250,-250);
+      }
+      vTaskDelay(200);
     }
     else if(irStateLeft){
       irLastSeen = 0;
-
+      myDCMotor.updateMotorSpeed(-250,250);
     }
     else if(irStateRight){
       irLastSeen = 1;
-
+      myDCMotor.updateMotorSpeed(250,-250);
     }
 }
 
