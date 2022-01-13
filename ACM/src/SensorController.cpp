@@ -3,12 +3,11 @@
 //initial values
 bool irStateLeft = false;
 bool irStateRight = false;
+bool irStateFront = false;
+//0 -> left, 1 -> right
 int irLastSeen = 0;
 int ultraSoonDistance = 20;
 bool reedState = false;
-int arraySize = 20;
-int irIndex = 20;
-int lastIrSeen[20];
 
 SensorController::SensorController() {
 
@@ -28,6 +27,7 @@ void SensorController::readSensor(){
     //read ir sensor
     irStateLeft = digitalRead(irLeft);
     irStateRight = digitalRead(irRight);
+    irStateFront = digitalRead(irFront);
 
     // //ultrasoon
     // digitalWrite(ultraSoonFrontTrig, HIGH);

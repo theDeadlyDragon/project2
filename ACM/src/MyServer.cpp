@@ -42,11 +42,11 @@ void callback(char* topic, byte* message, unsigned int length) {
                 myDCMotor.updateMotorSpeed(-250,-250);
                 Serial.println("BACK");
                 break;
-            case 'l':
+            case 'r':
                 myDCMotor.updateMotorSpeed(-250,250);
                 Serial.println("LEFT");
                 break;
-            case 'r':
+            case 'l':
                 myDCMotor.updateMotorSpeed(250,-250);
                 Serial.println("RIGHT");
                 break;
@@ -92,7 +92,7 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
-    if (client.connect("ESP32Client")) {
+    if (client.connect("ACM/29/esp")) {
       Serial.println("connected");
       // Subscribe
       client.subscribe("ACM/29/esp");

@@ -42,6 +42,7 @@ void loop(){
     
     client.publish("ACM/29/client/irLeft", String(irStateLeft).c_str());
     client.publish("ACM/29/client/irRight", String(irStateRight).c_str());
+    client.publish("ACM/29/client/irFront", String(irStateFront).c_str());
     client.publish("ACM/29/client/ultrasoon", String(ultraSoonDistance).c_str());
     client.publish("ACM/29/client/reed", String(reedState).c_str());
     client.publish("ACM/29/client/state", String(state).c_str());

@@ -5,6 +5,7 @@
     //state variables 
     extern bool irStateLeft;
     extern bool irStateRight; 
+    extern bool irStateFront;
     extern int irLastSeen;
 
     extern int ultraSoonDistance;
@@ -20,8 +21,9 @@ class SensorController {
     //initialise pins
     const int irLeft = 16;
     const int irRight = 17;
+    const int irFront = 4;
 
-    const int ultraSoonFrontTrig = 4;
+    const int ultraSoonFrontTrig = 2;
     const int ultraSoonFrontEcho = 15;
     long duration = 0;
 
