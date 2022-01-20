@@ -1,6 +1,7 @@
 #include "DCMotor.h"
 
 long lastRecord = 0;
+int objLast = 0;
 
 DCMotor::DCMotor() {
 
@@ -57,9 +58,13 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
 void DCMotor::autoPilot(){ 
   
     if(ultraSoonDistance < 15){
-      //myDCMotor.updateMotorSpeed(250, -250);
-      myDCMotor.updateMotorSpeed(0, 0);
-      vTaskDelay(900);
+      if(irLastSeen == 0 && (millis() - irLastSeenTime < 3000)){
+        myDCMotor.updateMotorSpeed(-250, 250);
+      }
+      else if(irLastSeen == 1 && (millis() - irLastSeenTime < 3000)){
+        myDCMotor.updateMotorSpeed(250, -250);
+      }
+      vTaskDelay(600);
     }
     else if(!(irStateLeft || irStateRight || irStateFront)){
       if(irLastSeen == 0 && (millis() - irLastSeenTime > 3000))
@@ -117,7 +122,6 @@ void DCMotor::autoPilot(){
 }
 
 void DCMotor::objAvoid(){
-
 }
 
 void DCMotor::tunnel(){
