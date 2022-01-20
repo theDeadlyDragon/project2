@@ -31,6 +31,7 @@ void loop(){
   sensorController.readSensor();
   if(state == AUTOPILOT){
     myDCMotor.autoPilot();
+    //myDCMotor.tunnel();
   }
   else if(state == OBJAVOID){
     myDCMotor.objAvoid();

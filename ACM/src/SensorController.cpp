@@ -6,6 +6,7 @@ bool irStateRight = false;
 bool irStateFront = false;
 //0 -> left, 1 -> right
 int irLastSeen = 0;
+long irLastSeenTime = 0;
 int ultraSoonDistance = 20;
 int ultraSoonDistanceLeft = 20;
 int ultraSoonDistanceRight = 20;

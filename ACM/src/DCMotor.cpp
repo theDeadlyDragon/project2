@@ -19,6 +19,7 @@ void DCMotor::setupDCMotor(){
     ledcAttachPin(mRForwardPin,1);
     ledcAttachPin(mLBackwardPin,2);
     ledcAttachPin(mRBackwardPin,3);
+
 }
 
 void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
@@ -53,14 +54,20 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
     }
 }
 
-void DCMotor::autoPilot(){
-  Serial.println(ultraSoonDistance);
+void DCMotor::autoPilot(){ 
+  
     if(ultraSoonDistance < 15){
-      myDCMotor.updateMotorSpeed(250, -250);
+      //myDCMotor.updateMotorSpeed(250, -250);
+      myDCMotor.updateMotorSpeed(0, 0);
       vTaskDelay(900);
     }
     else if(!(irStateLeft || irStateRight || irStateFront)){
-      myDCMotor.updateMotorSpeed(250, 250);
+      if(irLastSeen == 0 && (millis() - irLastSeenTime > 3000))
+        myDCMotor.updateMotorSpeed(230 , 230);
+      else if(irLastSeen == 1 && (millis() - irLastSeenTime > 3000))
+        myDCMotor.updateMotorSpeed(210 , 250);
+      else 
+        myDCMotor.updateMotorSpeed(230 , 250);
     }
     else if(irStateLeft && irStateRight && !irStateFront){
       myDCMotor.updateMotorSpeed(-250,-250);
@@ -69,32 +76,61 @@ void DCMotor::autoPilot(){
     else if(irStateLeft && irStateFront && !irStateRight){
       irLastSeen = 0;
       myDCMotor.updateMotorSpeed(-250,250);
+      
     }
     else if(irStateRight && irStateFront && !irStateLeft){
       irLastSeen = 1;
       myDCMotor.updateMotorSpeed(250,-250);
     }
     else if(irStateFront){
+      Serial.println(millis() - irLastSeenTime);
       // myDCMotor.updateMotorSpeed(-250,-250);
       // vTaskDelay(200);
-      if(irLastSeen == 0){
+      if(irLastSeen == 0 && (millis() - irLastSeenTime < 3000)){
         myDCMotor.updateMotorSpeed(-250,250);
       }
-      else{
+      else if(irLastSeen == 1 && (millis() - irLastSeenTime < 3000)){
         myDCMotor.updateMotorSpeed(250,-250);
       }
+      else{
+        if(irLastSeen == 0){
+          myDCMotor.updateMotorSpeed(250,-250);
+        }
+        else{
+          myDCMotor.updateMotorSpeed(-250,250);
+        }
+        vTaskDelay(1000);
+      }
+      irLastSeenTime = millis();
       vTaskDelay(200);
     }
     else if(irStateLeft){
       irLastSeen = 0;
+      irLastSeenTime = millis();
       myDCMotor.updateMotorSpeed(-250,250);
     }
     else if(irStateRight){
       irLastSeen = 1;
+      irLastSeenTime = millis();
       myDCMotor.updateMotorSpeed(250,-250);
     }
 }
 
 void DCMotor::objAvoid(){
 
+}
+
+void DCMotor::tunnel(){
+  Serial.println(ultraSoonDistanceLeft);
+  Serial.println(ultraSoonDistanceRight);
+
+  if(ultraSoonDistanceLeft < 8){
+    updateMotorSpeed(0, 250);
+  }
+  else if(ultraSoonDistanceRight < 8){
+    updateMotorSpeed(250, 180);
+  }
+  else{
+    updateMotorSpeed(230, 250);
+  }
 }

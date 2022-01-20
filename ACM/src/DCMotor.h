@@ -16,12 +16,14 @@ class DCMotor {
     int mRPin = 0;
     int motorLPWM;
     int motorRPWM;
+    int time = 0;
 
   DCMotor();
   void setupDCMotor();
   void updateMotorSpeed(int lPwm, int rPWM);
   void autoPilot();
   void objAvoid();
+  void tunnel();
 };
 
 extern DCMotor myDCMotor;
