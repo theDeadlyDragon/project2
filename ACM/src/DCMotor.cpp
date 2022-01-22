@@ -2,6 +2,9 @@
 
 long lastRecord = 0;
 int objLast = 0;
+int timeout = 3000;
+int maxDistanceObject = 15;
+int maxDistanceWall = 8;
 
 DCMotor::DCMotor() {
 
@@ -56,45 +59,54 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
 }
 
 void DCMotor::autoPilot(){ 
-  
-    if(ultraSoonDistance < 15){
-      if(irLastSeen == 0 && (millis() - irLastSeenTime < 3000)){
+    //object avoidance  
+    if(ultraSoonDistance < maxDistanceObject){
+      //determine direction by last seen IR
+      if(irLastSeen == 0 && (millis() - irLastSeenTime < timeout)){
         myDCMotor.updateMotorSpeed(-250, 250);
       }
-      else if(irLastSeen == 1 && (millis() - irLastSeenTime < 3000)){
+      else if(irLastSeen == 1 && (millis() - irLastSeenTime < timeout)){
         myDCMotor.updateMotorSpeed(250, -250);
+      }
+      else{
+        myDCMotor.updateMotorSpeed(-250, 250);
       }
       vTaskDelay(600);
     }
+    //no lines and objects detected
     else if(!(irStateLeft || irStateRight || irStateFront)){
-      if(irLastSeen == 0 && (millis() - irLastSeenTime > 3000))
+      if(irLastSeen == 0 && (millis() - irLastSeenTime > timeout))
         myDCMotor.updateMotorSpeed(230 , 230);
-      else if(irLastSeen == 1 && (millis() - irLastSeenTime > 3000))
+      else if(irLastSeen == 1 && (millis() - irLastSeenTime > timeout))
         myDCMotor.updateMotorSpeed(210 , 250);
       else 
         myDCMotor.updateMotorSpeed(230 , 250);
     }
+    //left and right IR detect a line
     else if(irStateLeft && irStateRight && !irStateFront){
       myDCMotor.updateMotorSpeed(-250,-250);
       vTaskDelay(280);
     }
+    //right IR detects line
     else if(irStateLeft && irStateFront && !irStateRight){
       irLastSeen = 0;
       myDCMotor.updateMotorSpeed(-250,250);
       
     }
+    //left IR detects line
     else if(irStateRight && irStateFront && !irStateLeft){
       irLastSeen = 1;
       myDCMotor.updateMotorSpeed(250,-250);
     }
+    //front IR detects a line
     else if(irStateFront){
       Serial.println(millis() - irLastSeenTime);
       // myDCMotor.updateMotorSpeed(-250,-250);
       // vTaskDelay(200);
-      if(irLastSeen == 0 && (millis() - irLastSeenTime < 3000)){
+      if(irLastSeen == 0 && (millis() - irLastSeenTime < timeout)){
         myDCMotor.updateMotorSpeed(-250,250);
       }
-      else if(irLastSeen == 1 && (millis() - irLastSeenTime < 3000)){
+      else if(irLastSeen == 1 && (millis() - irLastSeenTime < timeout)){
         myDCMotor.updateMotorSpeed(250,-250);
       }
       else{
@@ -109,11 +121,13 @@ void DCMotor::autoPilot(){
       irLastSeenTime = millis();
       vTaskDelay(200);
     }
+    //left IR detects a line
     else if(irStateLeft){
       irLastSeen = 0;
       irLastSeenTime = millis();
       myDCMotor.updateMotorSpeed(-250,250);
     }
+    //right IR detects a line
     else if(irStateRight){
       irLastSeen = 1;
       irLastSeenTime = millis();
@@ -128,10 +142,11 @@ void DCMotor::tunnel(){
   Serial.println(ultraSoonDistanceLeft);
   Serial.println(ultraSoonDistanceRight);
 
-  if(ultraSoonDistanceLeft < 8){
+  //avoidance of walls
+  if(ultraSoonDistanceLeft < maxDistanceWall){
     updateMotorSpeed(0, 250);
   }
-  else if(ultraSoonDistanceRight < 8){
+  else if(ultraSoonDistanceRight < maxDistanceWall){
     updateMotorSpeed(250, 180);
   }
   else{

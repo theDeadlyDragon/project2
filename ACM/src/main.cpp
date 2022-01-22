@@ -22,21 +22,28 @@ void setup(){
 
 void loop(){
   long now = millis();
+  //check mqtt broker connection
   if (!client.connected()) {
     reconnect();
   }
 
   client.loop();
 
+  //update all sensors
   sensorController.readSensor();
+
+  
   if(state == AUTOPILOT){
     myDCMotor.autoPilot();
-    //myDCMotor.tunnel();
   }
   else if(state == OBJAVOID){
     myDCMotor.objAvoid();
   }
+  else if(state == TUNNEL){
+    myDCMotor.tunnel();
+  }
 
+  //send sensor data to mqtt broker every 1000 mili seconds
   if (now - lastMsg > 1000) {
     lastMsg = now;
     
