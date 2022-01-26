@@ -73,6 +73,12 @@ void DCMotor::autoPilot(){
       }
       vTaskDelay(600);
     }
+    else if(ultraSoonDistanceLeft < maxDistanceWall){
+      updateMotorSpeed(-250, 250);      
+    }
+    else if(ultraSoonDistanceRight < maxDistanceWall){
+      updateMotorSpeed(250, -250);
+    }
     //no lines and objects detected
     else if(!(irStateLeft || irStateRight || irStateFront)){
       if(irLastSeen == 0 && (millis() - irLastSeenTime > timeout))
