@@ -5,7 +5,9 @@
 
 class DCMotor {
   public:
-    int mLForwardPin = 21;
+  
+
+    int mLForwardPin = 23;
     int mRForwardPin = 18;
     int mLBackwardPin = 19;
     int mRBackwardPin = 5;

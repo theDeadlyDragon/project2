@@ -1,8 +1,20 @@
 #include "main.h"
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
 
 MyServer myServer = MyServer();
 DCMotor myDCMotor = DCMotor();
 SensorController sensorController = SensorController();
+
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 32
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+
 
 int state;
 long lastMsg = 0;
@@ -18,6 +30,20 @@ void setup(){
   //initial state
   state = IDLE;
   Serial.println("setup complete");
+
+  	display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  
+ 
+	// Clear the buffer.
+	display.clearDisplay();
+ 
+	// Display Text
+	display.setTextSize(2);
+	display.setTextColor(WHITE);
+	display.setCursor(0,0);
+	display.println("Brrrr BOt");
+	display.display();
+	delay(2000);
+	display.clearDisplay();
 }
 
 void loop(){
