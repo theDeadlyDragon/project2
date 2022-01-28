@@ -32,7 +32,7 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
     motorLPWM = lPwm;
     motorRPWM = rPWM;
 
-    digitalWrite(brakeLights, false);
+    
 
     if(motorLPWM > 0){
       ledcWrite(0,motorLPWM);
@@ -59,6 +59,13 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
       ledcWrite(1,0);
       ledcWrite(3,0);
     }
+
+    //brake lights
+    if(motorRPWM < 0 && motorLPWM < 0)
+      digitalWrite(brakeLights, true);
+    else
+      digitalWrite(brakeLights, false);
+
 }
 
 void DCMotor::autoPilot(){ 
@@ -106,7 +113,6 @@ void DCMotor::autoPilot(){
     else if(irStateRight && irStateFront && !irStateLeft){
       irLastSeen = 1;
       myDCMotor.updateMotorSpeed(250,-250);
-      digitalWrite(brakeLights, true);
     }
     //front IR detects a line
     else if(irStateFront){

@@ -12,6 +12,7 @@ class DCMotor {
     int mLBackwardPin = 19;
     int mRBackwardPin = 5;
     int freq = 5000;
+    int brakeLights = 33;
 
     int ir=0;
     
