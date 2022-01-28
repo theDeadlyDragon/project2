@@ -11,6 +11,7 @@ void DCMotor::setupDCMotor(){
     pinMode(mRForwardPin,OUTPUT);
     pinMode(mLBackwardPin,OUTPUT);
     pinMode(mRBackwardPin,OUTPUT);
+    pinMode(brakeLights, OUTPUT);
     ledcSetup(0,freq,8);
     ledcSetup(1,freq,8);
     ledcSetup(2,freq,8);
@@ -25,6 +26,8 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
     Serial.printf("updated with %d and %d \n", lPwm,rPWM);
     motorLPWM = lPwm;
     motorRPWM = rPWM;
+
+    digitalWrite(brakeLights, false);
 
     if(motorLPWM > 0){
       ledcWrite(0,motorLPWM);
@@ -73,6 +76,7 @@ void DCMotor::autoPilot(){
     else if(irStateRight && irStateFront && !irStateLeft){
       irLastSeen = 1;
       myDCMotor.updateMotorSpeed(250,-250);
+      digitalWrite(brakeLights, true);
     }
     else if(irStateFront){
       // myDCMotor.updateMotorSpeed(-250,-250);
@@ -88,10 +92,15 @@ void DCMotor::autoPilot(){
     else if(irStateLeft){
       irLastSeen = 0;
       myDCMotor.updateMotorSpeed(-250,250);
+
     }
     else if(irStateRight){
       irLastSeen = 1;
       myDCMotor.updateMotorSpeed(250,-250);
+    }
+    if(reedState){
+      state = IDLE;
+      myDCMotor.updateMotorSpeed(0,0);
     }
 }
 
