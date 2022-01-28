@@ -33,6 +33,8 @@ void callback(char* topic, byte* message, unsigned int length) {
         }
     }
     else if((char)message[0] == 'm'){
+        state = MANUAL;
+        setDisplay("MANUAL");
         switch ((char)message[1]){
             case 'g':
                 myDCMotor.updateMotorSpeed(250,250);
@@ -51,6 +53,8 @@ void callback(char* topic, byte* message, unsigned int length) {
                 Serial.println("RIGHT");
                 break;
             case 's':
+                state = IDLE;
+                setDisplay("IDLE");
                 myDCMotor.updateMotorSpeed(0,0);
                 Serial.println("STOP");
                 break;
