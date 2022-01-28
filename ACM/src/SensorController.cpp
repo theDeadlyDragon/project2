@@ -6,11 +6,13 @@ bool irStateRight = false;
 bool irStateFront = false;
 //0 -> left, 1 -> right
 int irLastSeen = 0;
+long irLastSeenTime = 0;
 int ultraSoonDistance = 20;
 int ultraSoonDistanceLeft = 20;
 int ultraSoonDistanceRight = 20;
 bool ldrState = false;
 bool reedState = false;
+float speedOfSound = 0.0343;
 
 SensorController::SensorController() {
 
@@ -45,7 +47,7 @@ void SensorController::readSensor(){
     digitalWrite(ultraSoonFrontTrig, LOW);
 
     duration = pulseIn(ultraSoonFrontEcho, HIGH);
-    ultraSoonDistance = duration * 0.0343 / 2; //0.0343 speed of sound 
+    ultraSoonDistance = duration * speedOfSound / 2; //2: back and forth
 
     //ultrasoon left
     digitalWrite(ultraSoonLeftTrig, HIGH);
@@ -53,7 +55,7 @@ void SensorController::readSensor(){
     digitalWrite(ultraSoonLeftTrig, LOW);
     
     duration = pulseIn(ultraSoonLeftEcho, HIGH);
-    ultraSoonDistanceLeft = duration * 0.0343 / 2; //0.0343 speed of sound 
+    ultraSoonDistanceLeft = duration * speedOfSound / 2; //2: back and forth
 
     //ultrasoon right
     digitalWrite(ultraSoonRightTrig, HIGH);
@@ -61,7 +63,7 @@ void SensorController::readSensor(){
     digitalWrite(ultraSoonRightTrig, LOW);
 
     duration = pulseIn(ultraSoonRightEcho, HIGH);
-    ultraSoonDistanceRight = duration * 0.0343 / 2; //0.0343 speed of sound 
+    ultraSoonDistanceRight = duration * speedOfSound / 2; //2: back and forth
 
     //ldr
     ldrState = digitalRead(ldr);

@@ -7,6 +7,7 @@
     extern bool irStateRight; 
     extern bool irStateFront;
     extern int irLastSeen;
+    extern long irLastSeenTime;
 
     extern int ultraSoonDistance;
     extern int ultraSoonDistanceLeft;
@@ -15,10 +16,6 @@
     extern bool ldrState;
 
     extern bool reedState;
-
-    extern int arraySize;
-    extern int lastIrSeen[20];
-    extern int irIndex;
 
 class SensorController {
   public:
