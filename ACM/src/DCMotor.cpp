@@ -60,6 +60,9 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
       ledcWrite(3,0);
     }
 
+    if(!(motorRPWM > 0 && motorLPWM > 0)){
+      forwardCount = 0;
+    }
     //brake lights
     if(motorRPWM < 0 && motorLPWM < 0)
       digitalWrite(brakeLights, true);
@@ -69,6 +72,8 @@ void DCMotor::updateMotorSpeed(int lPwm, int rPWM){
 }
 
 void DCMotor::autoPilot(){ 
+
+
     //object avoidance  
     if(ultraSoonDistance < maxDistanceObject){
       //determine direction by last seen IR
@@ -90,18 +95,39 @@ void DCMotor::autoPilot(){
       updateMotorSpeed(250, -250);
     }
     //no lines and objects detected
+    // else if(!(irStateLeft || irStateRight || irStateFront)){
+    //   if(irLastSeen == 0 && (millis() - irLastSeenTime > timeout))
+    //     myDCMotor.updateMotorSpeed(250 , 230);
+    //   else if(irLastSeen == 1 && (millis() - irLastSeenTime > timeout))
+    //     myDCMotor.updateMotorSpeed(210 , 250);
+    //   else 
+    //     myDCMotor.updateMotorSpeed(230 , 250);
+    // }
     else if(!(irStateLeft || irStateRight || irStateFront)){
       if(irLastSeen == 0 && (millis() - irLastSeenTime > timeout))
-        myDCMotor.updateMotorSpeed(230 , 230);
+        myDCMotor.updateMotorSpeed(250 , 230);
       else if(irLastSeen == 1 && (millis() - irLastSeenTime > timeout))
         myDCMotor.updateMotorSpeed(210 , 250);
-      else 
-        myDCMotor.updateMotorSpeed(230 , 250);
+      else{
+        forwardCount++;
+        if(irLastSeen == 1){
+          myDCMotor.updateMotorSpeed((250 - pow(2 ,forwardCount)), 250);
+        }
+        else{
+          myDCMotor.updateMotorSpeed(250, 250 - pow(2, forwardCount));
+        }
+        
+      }
     }
     //left and right IR detect a line
     else if(irStateLeft && irStateRight && !irStateFront){
-      myDCMotor.updateMotorSpeed(-250,-250);
-      vTaskDelay(280);
+      if(irLastSeen == 0){
+        myDCMotor.updateMotorSpeed(-250,0);
+      }
+      else if(irLastSeen == 1){
+        myDCMotor.updateMotorSpeed(0,-250);
+      }
+      vTaskDelay(700);
     }
     //right IR detects line
     else if(irStateLeft && irStateFront && !irStateRight){
@@ -150,8 +176,9 @@ void DCMotor::autoPilot(){
       irLastSeenTime = millis();
       myDCMotor.updateMotorSpeed(250,-250);
     }
-    if(reedState){
+    if(hallEffectState){
       state = IDLE;
+      setDisplay("MAGNET DETECTED");
       myDCMotor.updateMotorSpeed(0,0);
     }
 }

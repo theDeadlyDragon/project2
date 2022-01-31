@@ -11,7 +11,7 @@ int ultraSoonDistance = 20;
 int ultraSoonDistanceLeft = 20;
 int ultraSoonDistanceRight = 20;
 bool ldrState = false;
-bool reedState = false;
+bool hallEffectState = false;
 float speedOfSound = 0.0343;
 
 SensorController::SensorController() {
@@ -32,10 +32,10 @@ void SensorController::setupSensor(){
     pinMode(ultraSoonFrontEcho, INPUT);
     pinMode(ultraSoonLeftEcho, INPUT);
     pinMode(ultraSoonRightEcho, INPUT);
-    pinMode(reed, INPUT);
+    pinMode(hallEffect, INPUT);
 }
 
-void SensorController::readSensor(){
+void SensorController::hallEffectSensor(){
     //read ir sensor
     irStateLeft = digitalRead(irLeft);
     irStateRight = digitalRead(irRight);
@@ -68,6 +68,6 @@ void SensorController::readSensor(){
     //ldr
     ldrState = digitalRead(ldr);
 
-    //reed
-    reedState = digitalRead(reed);
+    //hallEffect
+    hallEffectState = !digitalRead(hallEffect);
 }

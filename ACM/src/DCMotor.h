@@ -1,6 +1,7 @@
 #ifndef DCMOTOR
 #define DCMOTOR
 #include <Arduino.h>
+#include<cmath> 
 #include "main.h"
 
 class DCMotor {
@@ -13,6 +14,8 @@ class DCMotor {
     int mRBackwardPin = 5;
     int freq = 5000;
     int brakeLights = 33;
+
+      int forwardCount;
 
     int ir=0;
     

@@ -15,7 +15,7 @@
 
     extern bool ldrState;
 
-    extern bool reedState;
+    extern bool hallEffectState;
 
 class SensorController {
   public:
@@ -37,11 +37,11 @@ class SensorController {
 
     long duration = 0;
 
-    const int reed = 25;
+    const int hallEffect = 25;
 
   SensorController();
   void setupSensor();
-  void readSensor();
+  void hallEffectSensor();
 };
 
 extern SensorController sensorController;
