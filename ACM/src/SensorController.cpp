@@ -35,7 +35,7 @@ void SensorController::setupSensor(){
     pinMode(hallEffect, INPUT);
 }
 
-void SensorController::hallEffectSensor(){
+void SensorController::readSensor(){
     //read ir sensor
     irStateLeft = digitalRead(irLeft);
     irStateRight = digitalRead(irRight);

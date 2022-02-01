@@ -29,6 +29,7 @@ void callback(char* topic, byte* message, unsigned int length) {
         }
         else if((char)message[1] == '1'){
             state = AUTOPILOT;
+            startTimer = millis();
             Serial.println("state changed to AUTOPILOT");
         }
     }

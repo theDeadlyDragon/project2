@@ -178,7 +178,8 @@ void DCMotor::autoPilot(){
     }
     if(hallEffectState){
       state = IDLE;
-      setDisplay("MAGNET DETECTED");
+      timeCompleted = millis();
+      setDisplay(String((timeCompleted - startTimer) / 1000).c_str());
       myDCMotor.updateMotorSpeed(0,0);
     }
 }

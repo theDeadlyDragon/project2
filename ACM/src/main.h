@@ -25,8 +25,11 @@
 //time intervals
 #define MQTT_INTERVAL 1000
 #define DISPLAY_INTERVAL 3000
+#define TIMER_INTERVAL 5000
 
 extern int state;
+extern long startTimer;
+extern long timeCompleted;
 
 void setupDisplay();
 void setDisplay(String output);
