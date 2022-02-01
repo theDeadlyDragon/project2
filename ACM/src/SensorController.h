@@ -41,7 +41,7 @@ class SensorController {
 
   SensorController();
   void setupSensor();
-  void hallEffectSensor();
+  void readSensor();
 };
 
 extern SensorController sensorController;

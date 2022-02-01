@@ -8,6 +8,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 int state;
 long lastMsg = 0;
 long lastDspChange = 0;
+long startTimer = 0;
+long timeCompleted = 0;
 
 String name = "Brrrr Bot";
 String displayState[] = {"IDLE","AUTOPILOT","TUNNEL"};
@@ -38,7 +40,7 @@ void loop(){
   client.loop();
 
   //update all sensors
-  sensorController.hallEffectSensor();
+  sensorController.readSensor();
 
   
   if(state == AUTOPILOT){
@@ -63,7 +65,10 @@ void loop(){
     client.publish("ACM/29/client/state", String(state).c_str());
   }
 
-  if(now - lastDspChange > DISPLAY_INTERVAL){
+  if(now - timeCompleted < TIMER_INTERVAL && now > TIMER_INTERVAL){
+
+  }
+  else if(now - lastDspChange > DISPLAY_INTERVAL){
     lastDspChange = now;
     if(state != MANUAL){
       if(currentDisplay == name){
